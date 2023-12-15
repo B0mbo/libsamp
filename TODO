@@ -1,0 +1,18 @@
+$ samp connect botinform.com:7797 			// just remeber the server IP
+Connaction is ok! The server is online.
+
+$ samp players						// get players list
+player1
+player3
+...
+player11
+
+$ samp disconnect					// forget players ip
+Disconnected!
+
+$ samp players						// can not get players list
+No connection!
+
+
+libsamp.a
+libsamp.so
