@@ -1,6 +1,8 @@
 #include <string>
 #include <cstring>
 #include <cstdint>
+#include <sstream>
+#include <iostream>
 
 #include "SampServersData.h"
 
@@ -15,7 +17,18 @@ SampPacketBackbone::SampPacketBackbone(uint8_t *pData) {
 
 SampPacketBackbone::SampPacketBackbone(std::string& in_strAddr, uint16_t in_sPort, uint8_t in_cOpcode) {
     memcpy(cSAMPWord, "SAMP", 4);
-    memcpy(pcServerIpAddress, in_strAddr.c_str(), 4);
+    //memcpy(pcServerIpAddress, in_strAddr.c_str(), 4); (!)
+    std::vector<std::string> strings;
+    std::string s;
+    std::istringstream istr(in_strAddr);
+    while (std::getline(istr, s, '.')) {
+        std::cout << s << std::endl;
+        strings.push_back(s);
+    }
+    pcServerIpAddress[0] = (unsigned char)(std::stoi(strings[0]));
+    pcServerIpAddress[1] = (unsigned char)(std::stoi(strings[1]));
+    pcServerIpAddress[2] = (unsigned char)(std::stoi(strings[2]));
+    pcServerIpAddress[3] = (unsigned char)(std::stoi(strings[3]));
     sPort = in_sPort;
     cOpcode = in_cOpcode;
 }

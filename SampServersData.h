@@ -12,7 +12,7 @@ struct SampPacketBackbone {
     uint16_t	sPort;			// 2 bytes
     uint8_t 	cOpcode;		// 1 byte, request type
     
-    SampPacketBackbone() = delete;
+    SampPacketBackbone() {};
     SampPacketBackbone(uint8_t *pData);
     SampPacketBackbone(std::string& in_strAddr, uint16_t in_sPort, uint8_t in_cOpcode);
 
@@ -32,7 +32,7 @@ struct Samp_i_Response : public SampPacketBackbone {
     uint32_t	nLanguageLen;
     std::string	strLanguage;
 
-    Samp_i_Response() = delete;    
+    Samp_i_Response() {};
     explicit Samp_i_Response(uint8_t *pData);
 };
 

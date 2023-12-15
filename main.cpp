@@ -8,9 +8,10 @@ using namespace sampdata;
 int main()
 {
     LibSamp lsSamp;
-    uint8_t *pBuff = new uint8_t[1024];
-    struct Samp_i_Response bb(((unsigned char *)pBuff));
-    delete [] pBuff;
+    Samp_i_Response sir;
+    std::string strAddr = std::string("191.96.53.178");
+
+    lsSamp.getServerInfo(strAddr, 7797, sir);
 
     return 0;
 }
