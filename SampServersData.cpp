@@ -22,7 +22,6 @@ SampPacketBackbone::SampPacketBackbone(std::string& in_strAddr, uint16_t in_sPor
     std::string s;
     std::istringstream istr(in_strAddr);
     while (std::getline(istr, s, '.')) {
-        std::cout << s << std::endl;
         strings.push_back(s);
     }
     pcServerIpAddress[0] = (unsigned char)(std::stoi(strings[0]));
@@ -70,6 +69,11 @@ uint32_t SampPacketBackbone::GetStringFromData32(const uint8_t* const in_pData, 
 Samp_i_Response::Samp_i_Response(uint8_t *pData) :
 SampPacketBackbone(pData)
 {
+    initData(pData);
+}
+
+void Samp_i_Response::initData(uint8_t *pData)
+{
     uint8_t *psBuff;
 
     uint16_t sOffset = sizeof(SampPacketBackbone);
@@ -83,15 +87,15 @@ SampPacketBackbone(pData)
     sMaxPlayers = *((uint16_t *) (pData + sOffset));
     sOffset += sizeof(sMaxPlayers);
 
-    nHostNameLen = GetStringFromData32(pData, strHostName);
+    nHostNameLen = GetStringFromData32(pData+sOffset, strHostName);
     sOffset += sizeof(nHostNameLen);
     sOffset += nHostNameLen;
 
-    nGModeNameLen = GetStringFromData32(pData, strGModeName);
+    nGModeNameLen = GetStringFromData32(pData+sOffset, strGModeName);
     sOffset += sizeof(nGModeNameLen);
     sOffset += nGModeNameLen;
 
-    nLanguageLen = GetStringFromData32(pData, strLanguage);
+    nLanguageLen = GetStringFromData32(pData+sOffset, strLanguage);
     sOffset += sizeof(nLanguageLen);
     sOffset += nLanguageLen;
 }
@@ -105,10 +109,10 @@ SampPacketBackbone(pData)
     sRuleCount = *((uint16_t *) (pData + sOffset));
     sOffset += sizeof(sRuleCount);
     for(uint16_t sIndex = 0; sIndex < sRuleCount; ++sIndex) {
-	pdData.cRuleNameLen = GetStringFromData8(pData, pdData.strRuleName);
+	pdData.cRuleNameLen = GetStringFromData8(pData+sOffset, pdData.strRuleName);
 	sOffset += sizeof(pdData.cRuleNameLen);
 	sOffset += pdData.cRuleNameLen;
-	pdData.cValueLen = GetStringFromData8(pData, pdData.strValue);
+	pdData.cValueLen = GetStringFromData8(pData+sOffset, pdData.strValue);
 	sOffset += sizeof(pdData.cValueLen);
 	sOffset += pdData.cValueLen;
 	vRules.push_back(pdData);
@@ -123,7 +127,7 @@ SampPacketBackbone(pData)
     
     sPlayersCount = *((uint16_t *) (pData + sOffset));
     for(uint16_t sIndex = 0; sIndex < sPlayersCount; ++sIndex) {
-	psdPlayer.cPlayerNameLen = GetStringFromData8(pData, psdPlayer.strPlayerName);
+	psdPlayer.cPlayerNameLen = GetStringFromData8(pData+sOffset, psdPlayer.strPlayerName);
 	sOffset += sizeof(psdPlayer.cPlayerNameLen);
 	sOffset += psdPlayer.cPlayerNameLen;
 	psdPlayer.nPlayerScore = *((uint32_t *) (pData + sOffset));
@@ -135,7 +139,11 @@ SampPacketBackbone(pData)
 Samp_d_Response::Samp_d_Response(uint8_t *pData) :
 SampPacketBackbone(pData)
 {
-    uint8_t *pcBuff;
+    initData(pData);
+}
+
+void Samp_d_Response::initData(uint8_t *pData)
+{
     PlayerData pdPlayer;
     uint16_t sOffset = sizeof(SampPacketBackbone);
     
@@ -145,14 +153,14 @@ SampPacketBackbone(pData)
 	pdPlayer.cPlayerID = pData[sOffset];
 	sOffset += sizeof(pdPlayer.cPlayerID);
 
-	pdPlayer.cPlayerNameLen = GetStringFromData8(pData, pdPlayer.strPlayerName);
+	pdPlayer.cPlayerNameLen = GetStringFromData8(pData+sOffset, pdPlayer.strPlayerName);
 	sOffset += sizeof(pdPlayer.cPlayerNameLen);
 	sOffset += pdPlayer.cPlayerNameLen;
 
-	pdPlayer.nPlayerScore = *((uint32_t *) (pcBuff + sOffset));
+	pdPlayer.nPlayerScore = *((uint32_t *) (pData + sOffset));
 	sOffset += sizeof(pdPlayer.nPlayerScore);
 
-	pdPlayer.nPlayerPing = *((uint32_t *) (pcBuff + sOffset));
+	pdPlayer.nPlayerPing = *((uint32_t *) (pData + sOffset));
 	sOffset += sizeof(pdPlayer.nPlayerPing);
 
 	vPlayers.push_back(pdPlayer);

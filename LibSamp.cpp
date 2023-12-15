@@ -3,7 +3,7 @@
 namespace sampdata {
 
 LibSamp::LibSamp()
-{    
+{
 }
 
 void LibSamp::getServerInfo(std::string& in_strServerIp, uint16_t in_sPort, sampdata::Samp_i_Response& out_sirData)
@@ -12,19 +12,14 @@ void LibSamp::getServerInfo(std::string& in_strServerIp, uint16_t in_sPort, samp
     int32_t nDataLen, nRet;
     libsocket::LibSocket sock(in_strServerIp, in_sPort);
     SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'i'); // server info
-    std::cerr << "Sending UDP request to " << in_strServerIp << ":" << in_sPort << std::endl;
-    for(int j = 0; j < sizeof(spb); ++j) {
-	std::cerr << "spb[" << j << "]=" << ((unsigned char)(((char *)&spb)[j])) << std::endl;
-    }
+
+    //send ping here
+    //...
+    sock.SendUDPData((uint8_t *)&spb, sizeof(spb));
+    pData = new uint8_t[1024*1024];
     if((nRet = sock.SendUDPRequest((uint8_t *)&spb, sizeof(spb), pData, nDataLen)) > 0)
-    {
-	sampdata::Samp_i_Response *sip = new sampdata::Samp_i_Response(pData);
-	out_sirData = *sip;
-	std::cout << "nRet=" << nRet << ", Palyers: " << out_sirData.sPlayers << std::endl;
-	delete sip;
-    } else {
-	std::cerr << "Error: nRet=" << nRet << " sending UDP request to " << in_strServerIp << std::endl;
-    }
+	out_sirData.initData(pData);
+    delete [] pData;
 }
 
 void LibSamp::getPlayersList(std::string& in_strServerIp, uint16_t in_sPort, sampdata::Samp_d_Response& out_sdrData)
@@ -33,12 +28,14 @@ void LibSamp::getPlayersList(std::string& in_strServerIp, uint16_t in_sPort, sam
     int32_t nDataLen, nRet;
     libsocket::LibSocket sock(in_strServerIp, in_sPort);
     SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'d'); // server info
+
+    //send ping here
+    //...
+    sock.SendUDPData((uint8_t *)&spb, sizeof(spb));
+    pData = new uint8_t[1024*1024];
     if((nRet = sock.SendUDPRequest((uint8_t *)&spb, sizeof(spb), pData, nDataLen)) > 0)
-    {
-	sampdata::Samp_d_Response *sdp = new sampdata::Samp_d_Response(pData);
-	out_sdrData = *sdp;
-	delete sdp;
-    }
+	out_sdrData.initData(pData);
+    delete [] pData;
 }
 
 }; //sampdata

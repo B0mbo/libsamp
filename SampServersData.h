@@ -11,7 +11,7 @@ struct SampPacketBackbone {
     uint8_t	pcServerIpAddress[4];	// 4 bytes
     uint16_t	sPort;			// 2 bytes
     uint8_t 	cOpcode;		// 1 byte, request type
-    
+
     SampPacketBackbone() {};
     SampPacketBackbone(uint8_t *pData);
     SampPacketBackbone(std::string& in_strAddr, uint16_t in_sPort, uint8_t in_cOpcode);
@@ -34,6 +34,8 @@ struct Samp_i_Response : public SampPacketBackbone {
 
     Samp_i_Response() {};
     explicit Samp_i_Response(uint8_t *pData);
+
+    void initData(uint8_t *pData);
 };
 
 struct Samp_r_Response : public SampPacketBackbone {
@@ -43,10 +45,10 @@ struct Samp_r_Response : public SampPacketBackbone {
 	uint8_t		cValueLen;
 	std::string	strValue;
     };
-    
+
     uint16_t	sRuleCount;
     std::vector<RuleData> vRules;
-    
+
     Samp_r_Response() = delete;
     explicit Samp_r_Response(uint8_t *pData);
 };
@@ -59,7 +61,7 @@ struct Samp_c_Response : public SampPacketBackbone {
     };
     uint16_t	sPlayersCount;
     std::vector<PlayerShortData> vPlayers;
-    
+
     Samp_c_Response() = delete;
     explicit Samp_c_Response(uint8_t *pData);
 };
@@ -75,9 +77,11 @@ struct Samp_d_Response : public SampPacketBackbone {
 
     uint16_t		    sPlayersCount;
     std::vector<PlayerData> vPlayers;
-    
-    Samp_d_Response() = delete;
+
+    Samp_d_Response() {};
     explicit Samp_d_Response(uint8_t *pData);
+
+    void initData(uint8_t *pData);
 };
 
 struct Samp_RCON_Packet : public SampPacketBackbone {
@@ -85,7 +89,7 @@ struct Samp_RCON_Packet : public SampPacketBackbone {
     uint8_t	czPassword[8];
     uint16_t	sCommandLengh;
     std::string	strCommandText;		// various lenght
-    
+
     Samp_RCON_Packet() = delete;
     explicit Samp_RCON_Packet(uint8_t *);
 };

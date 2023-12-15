@@ -1,5 +1,5 @@
 #
-#
+# libsamp
 #
 
 CC=clang++
@@ -7,8 +7,9 @@ CC=clang++
 main: lib
 	$(CC) -g -o main main.cpp -L./ -lsamp -lsocket
 lib:
-	$(CC) -c -o sampserversdata.o SampServersData.cpp
-	$(CC) -c -o libsamp.o LibSamp.cpp 
-	ar rvs libsamp.a libsamp.o sampserversdata.o
+	$(CC) -g -c -o sampserversdata.o SampServersData.cpp
+	$(CC) -g -c -o libsamp.o LibSamp.cpp
+	ar rc libsamp.a libsamp.o sampserversdata.o
+
 clean:
 	rm main libsamp.a *.o
