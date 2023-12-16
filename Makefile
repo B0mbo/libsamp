@@ -5,7 +5,7 @@
 CC=clang++
 
 main: lib
-	$(CC) -g -o main main.cpp -L./ -lsamp -lsocket
+	$(CC) -g -o samp main.cpp -L./ -lsamp -lsocket
 lib:
 	$(CC) -g -c -o sampserversdata.o SampServersData.cpp
 	$(CC) -g -c -o libsamp.o LibSamp.cpp

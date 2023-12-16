@@ -2,7 +2,7 @@
 
 #include<iostream>
 
-#include "CLibSamp.h"
+#include "ILibSamp.h"
 #include "LibSocket.h"
 #include "SampServersData.h"
 
@@ -10,7 +10,7 @@ extern "C++" {
 
 namespace sampdata {
 
-class LibSamp : public CLibSamp
+class LibSamp : public ILibSamp
 {
 
 //socket realising

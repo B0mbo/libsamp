@@ -6,7 +6,7 @@
 
 namespace sampdata {
 
-class CLibSamp
+class ILibSamp
 {
 public:
     virtual void getServerInfo(std::string& in_strServerIp, uint16_t in_sPort, sampdata::Samp_i_Response& out_sirData) = 0;
