@@ -6,6 +6,9 @@
 
 using namespace sampdata;
 
+#define SERVER_ADDR "191.96.53.178"
+#define PORT_NUM 7797
+
 void show_server(LibSamp& lsSamp, std::string& strAddr, int nPort);
 void show_players(LibSamp& lsSamp, std::string& strAddr, int nPort);
 
@@ -14,20 +17,20 @@ int main(int argc, char *argv[])
     LibSamp lsSamp;
     Samp_i_Response sir;
     Samp_d_Response sdr;
-    std::string strAddr = std::string("191.96.53.178");
+    std::string strAddr = std::string(SERVER_ADDR);
 
     if(argc > 1)
     {
 	if (strcmp("players", argv[1]) == 0) {
-	    show_players(lsSamp, strAddr, 7797);
+	    show_players(lsSamp, strAddr, PORT_NUM);
 	}
 
 	if (strcmp("server", argv[1]) == 0) {
-	    show_server(lsSamp, strAddr, 7797);
+	    show_server(lsSamp, strAddr, PORT_NUM);
 	}
     } else {
-	show_server(lsSamp, strAddr, 7797);
-	show_players(lsSamp, strAddr, 7797);
+	show_server(lsSamp, strAddr, PORT_NUM);
+	show_players(lsSamp, strAddr, PORT_NUM);
     }
     return 0;
 }
