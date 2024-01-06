@@ -12,6 +12,9 @@
 
 using namespace sampdata;
 
+void show_server(LibSamp& lsSamp, std::string& strAddr, int nPort);
+void show_players(LibSamp& lsSamp, std::string& strAddr, int nPort);
+
 int main(int argc, char *argv[])
 {
     LibSamp lsSamp;
@@ -22,13 +25,29 @@ int main(int argc, char *argv[])
     if(argc > 1)
     {
 	if (strcmp("players", argv[1]) == 0) {
-	    lsSamp.getPlayersList(strAddr, SERVER_PORT, sdr);
+	    show_players(lsSamp, strAddr, PORT_NUM);
+	}
+
+	if (strcmp("server", argv[1]) == 0) {
+	    show_server(lsSamp, strAddr, PORT_NUM);
+	}
+    } else {
+	show_server(lsSamp, strAddr, PORT_NUM);
+	show_players(lsSamp, strAddr, PORT_NUM);
+    }
+    return 0;
+}
+
+void show_players(LibSamp& lsSamp, std::string& strAddr, int nPort)
+{
+	    Samp_i_Response sir;
+	    Samp_d_Response sdr;
+	    lsSamp.getPlayersList(strAddr, nPort, sdr);
 
 	    for(int nIndex = 0; nIndex < sdr.vPlayers.size(); ++nIndex)
 	    {
 		std::cout << sdr.vPlayers.at(nIndex).strPlayerName << std::endl;
 	    }
-
 //	    for(int nIndex = 0; nIndex < sdr.vPlayers.size(); ++nIndex)
 //	    {
 //		Samp_d_Response::PlayerData pd = sdr.vPlayers.at(nIndex);
@@ -37,20 +56,12 @@ int main(int argc, char *argv[])
 //		else
 //		    std::cout << (int)pd.cPlayerID << "\t" << pd.strPlayerName  << "\t\t" << pd.nPlayerScore << "\t" << pd.nPlayerPing << std::endl;
 //	    }
-	}
+}
 
-	if (strcmp("server", argv[1]) == 0) {
-	    lsSamp.getServerInfo(strAddr, SERVER_PORT, sir);
-	    std::cout << sir.strHostName << "\t" << (int)sir.sPlayers << "/" << sir.sMaxPlayers << std::endl;
-	}
-    } else {
-	    lsSamp.getServerInfo(strAddr, SERVER_PORT, sir);
-	    std::cout << sir.strHostName << "\t" << (int)sir.sPlayers << "/" << sir.sMaxPlayers << std::endl;
-	    lsSamp.getPlayersList(strAddr, SERVER_PORT, sdr);
-	    for(int nIndex = 0; nIndex < sdr.vPlayers.size(); ++nIndex)
-	    {
-		std::cout << sdr.vPlayers.at(nIndex).strPlayerName << std::endl;
-	    }
-    }
-    return 0;
+void show_server(LibSamp& lsSamp, std::string& strAddr, int nPort)
+{
+	    Samp_i_Response sir;
+	    Samp_d_Response sdr;
+	    lsSamp.getServerInfo(strAddr, nPort, sir);
+	    std::cout << sir.strHostName << "\t" << (int)sir.sPlayers << "/" << sir.sMaxPlayers << std::endl;    
 }
