@@ -3,13 +3,16 @@
 #
 
 CC=clang++
+PRJ=samp
 
 main: lib
-	$(CC) -g -o samp main.cpp -L./ -lsamp -lsocket
+	$(CC) -g -o $(PRJ) main.cpp -L./ -l$(PRJ) -lsocket
+	rm *.o
+
 lib:
 	$(CC) -g -c -o sampserversdata.o SampServersData.cpp
-	$(CC) -g -c -o libsamp.o LibSamp.cpp
-	ar rc libsamp.a libsamp.o sampserversdata.o
+	$(CC) -g -c -o lib$(PRJ).o LibSamp.cpp
+	ar rc lib$(PRJ).a lib$(PRJ).o sampserversdata.o
 
 clean:
-	rm main libsamp.a *.o
+	rm  lib$(PRJ).a *.o

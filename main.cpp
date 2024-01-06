@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
     if(argc > 1)
     {
 	if (strcmp("players", argv[1]) == 0) {
-	    show_players(lsSamp, strAddr, PORT_NUM);
+	    show_players(lsSamp, strAddr, SERVER_PORT);
 	}
 
 	if (strcmp("server", argv[1]) == 0) {
-	    show_server(lsSamp, strAddr, PORT_NUM);
+	    show_server(lsSamp, strAddr, SERVER_PORT);
 	}
     } else {
-	show_server(lsSamp, strAddr, PORT_NUM);
-	show_players(lsSamp, strAddr, PORT_NUM);
+	show_server(lsSamp, strAddr, SERVER_PORT);
+	show_players(lsSamp, strAddr, SERVER_PORT);
     }
     return 0;
 }
