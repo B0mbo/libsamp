@@ -11,7 +11,7 @@ void LibSamp::getServerInfo(std::string& in_strServerIp, uint16_t in_sPort, samp
     uint8_t *pData;
     int32_t nDataLen, nRet;
     libsocket::LibSocket sock(in_strServerIp, in_sPort);
-    SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'i'); // server info
+    SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'i'); // server info request
 
     //send ping here
     //...
@@ -27,7 +27,7 @@ void LibSamp::getPlayersList(std::string& in_strServerIp, uint16_t in_sPort, sam
     uint8_t *pData;
     int32_t nDataLen, nRet;
     libsocket::LibSocket sock(in_strServerIp, in_sPort);
-    SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'d'); // server info
+    SampPacketBackbone spb(in_strServerIp, in_sPort, (uint8_t)'d'); // players list request
 
     //send ping here
     //...
